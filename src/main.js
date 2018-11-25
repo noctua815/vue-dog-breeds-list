@@ -4,6 +4,10 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+import DogCard from './components/layout/DogCard'
+
+Vue.component('dog-card', DogCard)
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
