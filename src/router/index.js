@@ -15,14 +15,14 @@ export default new Router({
       component: Home
     },
     {
-      path: '/:breed',
-      name: 'breed',
-      component: Breed
-    },
-    {
       path: '/favourites',
       name: 'favourites',
       component: Favourites
-    }
+    },
+	  {
+		  path: '/:breed',
+		  name: 'breed',
+		  component: Breed
+	  }
   ]
 })
