@@ -19,10 +19,10 @@ export default new Router({
       name: 'favourites',
       component: Favourites
     },
-	  {
-		  path: '/:breed',
-		  name: 'breed',
-		  component: Breed
-	  }
+    {
+      path: '/:breed',
+      name: 'breed',
+      component: Breed
+    }
   ]
 })

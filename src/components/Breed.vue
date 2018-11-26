@@ -1,14 +1,14 @@
 <template>
-	<div class="page">
-		<h1>Breed: {{ breed }}</h1>
+  <div class="page">
+    <h1>Breed: {{ breed }}</h1>
 
-		<div class="page-content">
-			<div class="dogs-list" v-if="currentBreed.length">
-				<dog-card v-for="(dog, i) in currentBreed" :key="`dog_${i}`" :data="dog"/>
-			</div>
-			<div class="error-msg" v-else>Nothing found</div>
-		</div>
-	</div>
+    <div class="page-content">
+      <div class="dogs-list" v-if="currentBreed.length">
+        <dog-card v-for="(dog, i) in currentBreed" :key="`dog_${i}`" :data="dog"/>
+      </div>
+      <div class="error-msg" v-else>Nothing found</div>
+    </div>
+  </div>
 </template>
 
 <script>

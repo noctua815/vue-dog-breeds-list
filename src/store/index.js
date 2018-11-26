@@ -22,51 +22,51 @@ export default new Vuex.Store({
   actions: {
     loadBreeds ({ commit }) {
       api.get('breeds/list/all')
-			   .then(r => r.data.status === 'success' ? r.data.message : null)
-			   .then(breeds => {
-				   commit('SET_BREEDS', Object.keys(breeds))
-			   })
-			   .catch(error => console.log(error))
+        .then(r => r.data.status === 'success' ? r.data.message : null)
+        .then(breeds => {
+          commit('SET_BREEDS', Object.keys(breeds))
+        })
+        .catch(error => console.log(error))
     },
 
     loadDogs ({ commit }) {
       api.get('breeds/image/random/20')
-			   .then(r => r.data.status === 'success' ? r.data.message : null)
-			   .then(dogs => {
-				   let arr = []
+        .then(r => r.data.status === 'success' ? r.data.message : null)
+        .then(dogs => {
+          let arr = []
 
-				   dogs.forEach((el, i) => {
-					   let dog = {
-						   link: el,
-						   breed: el.split('https://images.dog.ceo/breeds/')[1]
-					   }
+          dogs.forEach((el, i) => {
+            let dog = {
+              link: el,
+              breed: el.split('https://images.dog.ceo/breeds/')[1]
+            }
 
-					   dog.breed = dog.breed.split('/')[0]
-					   arr.push(dog)
-				   })
-				   commit('SET_DOGS', arr)
-			   })
-			   .catch(error => console.log(error))
+            dog.breed = dog.breed.split('/')[0]
+            arr.push(dog)
+          })
+          commit('SET_DOGS', arr)
+        })
+        .catch(error => console.log(error))
     },
 
     loadBreed ({ commit }, breed) {
       commit('CLEAR_CURRENT_BREED')
 
       api.get(`breed/${breed}/images`)
-			   .then(r => r.data.status === 'success' ? r.data.message : null)
-			   .then(dogs => {
-				   let arr = []
+        .then(r => r.data.status === 'success' ? r.data.message : null)
+        .then(dogs => {
+          let arr = []
 
-				   dogs.forEach((el, i) => {
-					   arr.push({
-						   link: el,
-						   breed: breed
-					   })
-				   })
+          dogs.forEach((el, i) => {
+            arr.push({
+              link: el,
+              breed: breed
+            })
+          })
 
-				   commit('SET_CURRENT_BREED', arr)
-			   })
-			   .catch(error => console.log(error))
+          commit('SET_CURRENT_BREED', arr)
+        })
+        .catch(error => console.log(error))
     },
 
     getFavourites ({ commit }) {

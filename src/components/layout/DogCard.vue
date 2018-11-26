@@ -1,26 +1,26 @@
 <template>
-	<div class="dog-card" @dblclick="liked">
-		<div class="dog-card__photo">
-			<img class="dog-card__img"
-			     :src="data.link"
-			     alt="Dog">
-		</div>
-		<div class="dog-card__action">
-			<div :class="['dog-card__like', {'is-liked': like}]" @click="liked"></div>
-		</div>
-	</div>
+  <div class="dog-card" @dblclick="liked">
+    <div class="dog-card__photo">
+      <img class="dog-card__img"
+           :src="data.link"
+           alt="Dog">
+    </div>
+    <div class="dog-card__action">
+      <div :class="['dog-card__like', {'is-liked': like}]" @click="liked"></div>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
   props: {
     data: {
-      	type: Object
+      type: Object
     },
-	    isLiked: {
-      	type: Boolean,
-		    default: false
-	    }
+    isLiked: {
+      type: Boolean,
+      default: false
+    }
   },
   data () {
     return {
@@ -30,97 +30,98 @@ export default {
 
   methods: {
     liked () {
-      	let favs = JSON.parse(window.localStorage.getItem('fav-dogs')) || []
+      let favs = JSON.parse(window.localStorage.getItem('fav-dogs')) || []
 
-	      console.log(favs)
+      console.log(favs)
 
-	      this.like = !this.like
+      this.like = !this.like
 
-	      if (this.like) {
-		      favs.push(this.data)
-	      } else {
-		      favs = favs.filter(item => item.link !== this.data.link)
-	      }
+      if (this.like) {
+        favs.push(this.data)
+      } else {
+        favs = favs.filter(item => item.link !== this.data.link)
+      }
 
-	      this.$store.dispatch('setFavourites', favs)
+      this.$store.dispatch('setFavourites', favs)
     }
   }
 }
 </script>
 
 <style lang="scss">
-	.dog-card {
-		width: calc(50% - 16px);
-		margin: 8px;
-		padding: 16px 16px 32px;
-		border-radius: 4px;
-		border: 1px solid rgba(black, 0.1);
-		background-color: var(--light);
+  .dog-card {
+    width: calc(50% - 16px);
+    margin: 8px;
+    padding: 16px 16px 32px;
+    border-radius: 4px;
+    border: 1px solid rgba(black, 0.1);
+    background-color: var(--light);
 
-		@media (max-width: 600px) {
-			width: 100%;
-			margin: 8px 0;
-		}
+    @media (max-width: 600px) {
+      width: 100%;
+      margin: 8px 0;
+    }
 
-		&__photo {
-			position: relative;
-			width: 100%;
-			margin-bottom: 16px;
-			background-color: rgba(black, 0.1);
-			border-radius: 4px;
-			overflow: hidden;
+    &__photo {
+      position: relative;
+      width: 100%;
+      margin-bottom: 16px;
+      background-color: rgba(black, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
 
-			&:after {
-				content: '';
-				padding-top: 100%;
-				float: left;
-			}
-		}
+      &:after {
+        content: '';
+        padding-top: 100%;
+        float: left;
+      }
+    }
 
-		&__img {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-			object-position: center top;
-		}
+    &__img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
 
-		&__action {}
+    &__action {
+    }
 
-		&__like {
-			position: relative;
-			width: 32px;
-			height: 32px;
-			margin: 0 auto;
-			cursor: pointer;
+    &__like {
+      position: relative;
+      width: 32px;
+      height: 32px;
+      margin: 0 auto;
+      cursor: pointer;
 
-			&:before,
-			&:after {
-				content: '';
-				position: absolute;
-				width: 100%;
-				height: 100%;
-			}
+      &:before,
+      &:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
 
-			&:before {
-				background: url('../../assets/heart.svg') no-repeat center/contain;
-			}
+      &:before {
+        background: url('../../assets/heart.svg') no-repeat center/contain;
+      }
 
-			&:after {
-				opacity: 0;
-				transform: scale(0.5);
-				transition: all 0.3s ease;
-				background: url('../../assets/heart-fill.svg') no-repeat center/contain;
-			}
+      &:after {
+        opacity: 0;
+        transform: scale(0.5);
+        transition: all 0.3s ease;
+        background: url('../../assets/heart-fill.svg') no-repeat center/contain;
+      }
 
-			&.is-liked {
-				&:after {
-					opacity: 1;
-					transform: scale(1);
-				}
-			}
-		}
-	}
+      &.is-liked {
+        &:after {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    }
+  }
 </style>

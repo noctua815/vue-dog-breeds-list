@@ -1,17 +1,17 @@
 <template>
-	<div class="page">
-		<h1>Home</h1>
+  <div class="page">
+    <h1>Home</h1>
 
-		<div class="filtering">
-			<v-select :options="currentBreeds" title="Filtering" class="dark" @select="selectBreed"></v-select>
-		</div>
+    <div class="filtering">
+      <v-select :options="currentBreeds" title="Filtering" class="dark" @select="selectBreed"></v-select>
+    </div>
 
-		<div class="page-content">
-			<div class="dogs-list">
-				<dog-card v-for="(dog, i) in dogList" :key="`dog_${i}`" :data="dog"/>
-			</div>
-		</div>
-	</div>
+    <div class="page-content">
+      <div class="dogs-list">
+        <dog-card v-for="(dog, i) in dogList" :key="`dog_${i}`" :data="dog"/>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
