@@ -2,7 +2,7 @@
 	<div class="dog-card" @dblclick="liked">
 		<div class="dog-card__photo">
 			<img class="dog-card__img"
-			     :src="img"
+			     :src="data.link"
 			     alt="Dog">
 		</div>
 		<div class="dog-card__action">
@@ -14,8 +14,8 @@
 <script>
   export default {
     props: {
-      img: {
-      	type: String
+      data: {
+      	type: Object
       }
     },
     data () {

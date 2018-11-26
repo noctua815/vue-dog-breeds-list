@@ -1,6 +1,8 @@
 <template>
 	<div :class="['select', {'is-opened': opened}]">
-		<div class="select__head" @click="toggleOpen">Breed</div>
+		<div class="select__head" @click="toggleOpen">{{ computetTitle }}</div>
+		<div class="select__clear" v-if="computedClearButton" @click="clearSelect"></div>
+		
 		<transition name="open-select">
 			<div class="select__body" v-if="opened">
 				<div class="select__item" v-for="(item, i) in options" @click="selectItem(item)" :key="i">{{ item }}</div>
@@ -11,38 +13,71 @@
 </template>
 
 <script>
-  export default {
-    props: {
-	    options: {
-        type: Array
-      }
-    },
-    data () {
-      return {
-        opened: false,
-        arr: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-      }
-    },
-    
-    methods: {
-      toggleOpen () {
-        this.opened = !this.opened
-      },
-      
-      selectItem (item) {
-        console.log('select', item)
-        this.opened = false
-      }
-    }
-  }
+	export default {
+		props: {
+			options: {
+				type: Array
+			},
+			
+			title: {
+				type: String,
+				default: 'Breed'
+			},
+			
+			changeTitle: {
+				type: Boolean,
+				default: true
+			},
+			
+			clear: {
+				type: Boolean,
+				default: true
+			}
+		},
+		data () {
+			return {
+				opened: false,
+				selected: null
+			}
+		},
+		
+		computed: {
+			computetTitle () {
+				return this.selected || this.title
+			},
+			
+			computedClearButton () {
+				return this.clear && this.selected
+			}
+		},
+		
+		methods: {
+			toggleOpen () {
+				this.opened = !this.opened
+			},
+			
+			selectItem (item) {
+				this.opened = false
+				this.selected = item
+				this.$emit('select', item)
+			},
+			
+			clearSelect() {
+				this.selected = null
+				this.selectItem(null)
+			}
+		}
+	}
 </script>
 
 <style lang="scss">
 	.select {
 		position: relative;
+		display: inline-flex;
 		
 		&__head {
 			position: relative;
+			min-width: 80px;
 			max-width: 200px;
 			padding-right: 24px;
 			overflow: hidden;
@@ -50,6 +85,7 @@
 			white-space: nowrap;
 			font-size: 16px;
 			color: white;
+			text-transform: capitalize;
 			text-decoration: underline;
 			cursor: pointer;
 			
@@ -69,14 +105,34 @@
 				transform: translateY(-50%);
 			}
 		}
+		
+		&__clear {
+			position: absolute;
+			z-index: 1;
+			top: 50%;
+			right: -30px;
+			width: 20px;
+			height: 20px;
+			background: url('../../assets/close.svg') no-repeat center/10px 10px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+			transform: translateY(-50%);
+			
+			&:hover {
+				background-color: rgba(black, 0.05);
+			}
+		}
+		
 		&__body {
 			position: absolute;
+			left: 0;
+			top: calc(100% + 8px);
 			z-index: 1;
 			background: white;
 			width: auto;
-			min-width: 100px;
+			min-width: 160px;
 			padding: 8px;
-			box-shadow: 0 4px 4px rgba(black, 0.05);
+			box-shadow: 0 4px 4px rgba(black, 0.1);
 			max-height: 300px;
 			overflow: auto;
 			
@@ -99,11 +155,12 @@
 			padding: 2px 0;
 			color: var(--dark);
 			font-size: 16px;
-			text-decoration: underline;
+			transition: color 0.3s ease;
+			text-transform: capitalize;
 			cursor: pointer;
 			
 			&:hover {
-				text-decoration: none;
+				color: var(--pink);
 			}
 			
 			&:last-child {
@@ -117,6 +174,16 @@
 				
 				&:after {
 					transform: translateY(-50%) rotate(180deg);
+				}
+			}
+		}
+		
+		&.dark {
+			.select__head {
+				color: var(--dark);
+				
+				&:after {
+					background-image: url('../../assets/down-arrow-dark.svg');
 				}
 			}
 		}

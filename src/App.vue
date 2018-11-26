@@ -78,8 +78,8 @@
 		margin: -8px;
 	}
 	
-	.loader {
-	
+	.filtering {
+		margin-bottom: 30px;
 	}
 	
 </style>

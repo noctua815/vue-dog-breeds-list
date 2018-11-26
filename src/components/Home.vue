@@ -2,36 +2,44 @@
 	<div class="page">
 		<h1>Home</h1>
 		
+		<div class="filtering">
+			<v-select :options="currentBreeds" title="Filtering" class="dark" @select="selectBreed"></v-select>
+		</div>
 		<div class="page-content">
-			<div class="dogs-list" ref="list">
-				<dog-card v-for="(dog, i) in dogs" :key="`dog_${i}`" :img="dog" />
+			<div class="dogs-list">
+				<dog-card v-for="(dog, i) in dogList" :key="`dog_${i}`" :data="dog"/>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	import {mapState} from 'vuex'
+	import { mapState, mapGetters } from 'vuex'
 	
 	export default {
 		name: 'home',
 		data () {
-			return {}
+			return {
+				filter: null,
+				dogList: []
+			}
 		},
 		
 		computed: {
-			...mapState({
-				dogs: state => state.dogs
-			})
+			...mapState([
+				'dogs'
+			]),
+			
+			...mapGetters([
+				'currentBreeds',
+				'filteringByBreed'
+			])
+			
 		},
 		
 		created () {
-			this.$store.dispatch('loadDogs')
+			this.loadMore()
 			window.addEventListener('scroll', this.handleScroll)
-		},
-		
-		mounted() {
-		
 		},
 		
 		beforeDestroy () {
@@ -45,9 +53,14 @@
 				}
 			},
 			
-			loadMore() {
-				console.log('loadmore')
+			loadMore () {
+				this.dogList = this.dogs
 				this.$store.dispatch('loadDogs')
+			},
+			
+			selectBreed (val) {
+				this.filter = val
+				this.dogList = this.filteringByBreed(this.filter)
 			}
 		}
 	}

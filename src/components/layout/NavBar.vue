@@ -5,7 +5,7 @@
 				<router-link to="/">Home</router-link>
 			</div>
 			<div class="nav-bar__link">
-				<v-select :options="breeds"></v-select>
+				<v-select :options="breeds" @select="selectBreed"></v-select>
 			</div>
 			<div class="nav-bar__link">
 				<router-link :to="{ name: 'favourites' }">Favourites</router-link>
@@ -16,13 +16,8 @@
 
 <script>
 	import { mapState } from 'vuex'
-  import VSelect from './Select'
   
   export default {
-    components: {
-      VSelect
-    },
-	
 	  computed: {
 		  ...mapState({
 			  breeds: state => state.breeds
@@ -31,8 +26,12 @@
 	
 	  created () {
 		  this.$store.dispatch('loadBreeds')
-		  
-		  console.log()
+	  },
+	  
+	  methods: {
+		  selectBreed(val) {
+		  	console.log(val)
+		  }
 	  }
   }
 </script>

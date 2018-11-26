@@ -33,7 +33,18 @@ export default new Vuex.Store({
 			api.get('breeds/image/random/20')
 			     .then(r => r.data.status === 'success' ? r.data.message : null)
 			     .then(dogs => {
-				     commit('SET_DOGS', dogs)
+			     	let arr = []
+				     
+			     	dogs.forEach((el, i) => {
+			     		let dog = {
+			     			link: el,
+					      breed: el.split('https://images.dog.ceo/breeds/')[1]
+				      }
+				      
+				      dog.breed = dog.breed.split('/')[0]
+				      arr.push(dog)
+			      })
+				     commit('SET_DOGS', arr)
 			     })
 			     .catch(error => console.log(error))
 		}
@@ -48,8 +59,12 @@ export default new Vuex.Store({
 		}
 	},
 	getters: {
-		// breedsName: state => {
-		// 	return state.breeds.map()
-		// }
+		currentBreeds: state => {
+			return [...new Set(state.dogs.map(item => item.breed))];
+		},
+		
+		filteringByBreed: state => param => {
+			return param ? state.dogs.filter(item => item.breed === param) : state.dogs
+		}
 	}
 })
