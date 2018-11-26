@@ -19,6 +19,10 @@
 	  
 	  components: {
       NavBar
+	  },
+	  
+	  created() {
+		  this.$store.dispatch('getFavourites')
 	  }
   }
 </script>

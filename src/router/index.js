@@ -15,7 +15,7 @@ export default new Router({
       component: Home
     },
     {
-      path: '/breed',
+      path: '/:breed',
       name: 'breed',
       component: Breed
     },

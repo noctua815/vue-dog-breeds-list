@@ -5,7 +5,7 @@
 				<router-link to="/">Home</router-link>
 			</div>
 			<div class="nav-bar__link">
-				<v-select :options="breeds" @select="selectBreed"></v-select>
+				<v-select :options="breeds" @select="selectBreed" :clear="false" :changeTitle="false"></v-select>
 			</div>
 			<div class="nav-bar__link">
 				<router-link :to="{ name: 'favourites' }">Favourites</router-link>
@@ -15,25 +15,26 @@
 </template>
 
 <script>
-	import { mapState } from 'vuex'
-  
-  export default {
-	  computed: {
-		  ...mapState({
-			  breeds: state => state.breeds
-		  })
-	  },
+	import {mapState} from 'vuex'
 	
-	  created () {
-		  this.$store.dispatch('loadBreeds')
-	  },
-	  
-	  methods: {
-		  selectBreed(val) {
-		  	console.log(val)
-		  }
-	  }
-  }
+	export default {
+		computed: {
+			...mapState({
+				breeds: state => state.breeds
+			})
+		},
+		
+		created () {
+			this.$store.dispatch('loadBreeds')
+		},
+		
+		methods: {
+			selectBreed (val) {
+				this.$router.push({name: 'breed', params: {breed: val}})
+				this.$root.$emit('updateBreedPage', val)
+			}
+		}
+	}
 </script>
 
 <style lang="scss">

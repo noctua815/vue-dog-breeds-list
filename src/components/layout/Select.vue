@@ -43,7 +43,7 @@
 		
 		computed: {
 			computetTitle () {
-				return this.selected || this.title
+				return this.changeTitle ? this.selected || this.title : this.title
 			},
 			
 			computedClearButton () {

@@ -16,17 +16,33 @@
     props: {
       data: {
       	type: Object
-      }
+      },
+	    isLiked: {
+      	type: Boolean,
+		    default: false
+	    }
     },
     data () {
       return {
-        like: false
+        like: this.isLiked
       }
     },
     
     methods: {
       liked() {
-        this.like = !this.like
+      	let favs = JSON.parse(window.localStorage.getItem('fav-dogs')) || []
+				
+	      console.log(favs)
+	      
+	      this.like = !this.like
+	
+	      if (this.like) {
+		      favs.push(this.data)
+	      } else {
+		      favs = favs.filter(item => item.link !== this.data.link)
+	      }
+	
+	      this.$store.dispatch('setFavourites', favs)
       }
     }
   }
