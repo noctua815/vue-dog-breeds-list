@@ -12,40 +12,40 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      data: {
+export default {
+  props: {
+    data: {
       	type: Object
-      },
+    },
 	    isLiked: {
       	type: Boolean,
 		    default: false
 	    }
-    },
-    data () {
-      return {
-        like: this.isLiked
-      }
-    },
-    
-    methods: {
-      liked() {
+  },
+  data () {
+    return {
+      like: this.isLiked
+    }
+  },
+
+  methods: {
+    liked () {
       	let favs = JSON.parse(window.localStorage.getItem('fav-dogs')) || []
-				
+
 	      console.log(favs)
-	      
+
 	      this.like = !this.like
-	
+
 	      if (this.like) {
 		      favs.push(this.data)
 	      } else {
 		      favs = favs.filter(item => item.link !== this.data.link)
 	      }
-	
+
 	      this.$store.dispatch('setFavourites', favs)
-      }
     }
   }
+}
 </script>
 
 <style lang="scss">
@@ -56,7 +56,12 @@
 		border-radius: 4px;
 		border: 1px solid rgba(black, 0.1);
 		background-color: var(--light);
-		
+
+		@media (max-width: 600px) {
+			width: 100%;
+			margin: 8px 0;
+		}
+
 		&__photo {
 			position: relative;
 			width: 100%;
@@ -64,15 +69,14 @@
 			background-color: rgba(black, 0.1);
 			border-radius: 4px;
 			overflow: hidden;
-			
+
 			&:after {
 				content: '';
 				padding-top: 100%;
 				float: left;
 			}
 		}
-		
-		
+
 		&__img {
 			position: absolute;
 			top: 0;
@@ -82,16 +86,16 @@
 			object-fit: cover;
 			object-position: center top;
 		}
-		
+
 		&__action {}
-		
+
 		&__like {
 			position: relative;
 			width: 32px;
 			height: 32px;
 			margin: 0 auto;
 			cursor: pointer;
-			
+
 			&:before,
 			&:after {
 				content: '';
@@ -99,18 +103,18 @@
 				width: 100%;
 				height: 100%;
 			}
-			
+
 			&:before {
 				background: url('../../assets/heart.svg') no-repeat center/contain;
 			}
-			
+
 			&:after {
 				opacity: 0;
 				transform: scale(0.5);
 				transition: all 0.3s ease;
 				background: url('../../assets/heart-fill.svg') no-repeat center/contain;
 			}
-			
+
 			&.is-liked {
 				&:after {
 					opacity: 1;

@@ -1,7 +1,7 @@
 <template>
 	<div id="app" class="app">
 		<nav-bar></nav-bar>
-		
+
 		<div class="container">
 			<div class="wrapper">
 				<router-view/>
@@ -11,20 +11,20 @@
 </template>
 
 <script>
-	import {mapState} from 'vuex'
-	import NavBar from '@/components/layout/NavBar'
-	
-  export default {
-    name: 'App',
-	  
+import { mapState } from 'vuex'
+import NavBar from '@/components/layout/NavBar'
+
+export default {
+  name: 'App',
+
 	  components: {
-      NavBar
+    NavBar
 	  },
-	  
-	  created() {
+
+	  created () {
 		  this.$store.dispatch('getFavourites')
 	  }
-  }
+}
 </script>
 
 <style lang="scss">
@@ -35,17 +35,17 @@
 		--blue: #3454D1;
 		--green: #34D1BF;
 	}
-	
+
 	body {
 		margin: 0;
 		padding: 0;
 		background-color: white;
 	}
-	
+
 	* {
 		box-sizing: border-box;
 	}
-	
+
 	.app {
 		font-family: 'Avenir', Helvetica, Arial, sans-serif;
 		font-size: 16px;
@@ -58,32 +58,36 @@
 		width: 100%;
 		padding: 30px 0;
 	}
-	
+
 	.wrapper {
 		width: 100%;
 		padding: 0 48px;
-		
+
 		@media (max-width: 768px){
 			padding: 0 24px;
 		}
-		
+
 		@media (max-width: 600px){
 			padding: 0 12px;
 		}
 	}
-	
+
 	h1 {
 		font-weight: normal;
 	}
-	
+
 	.dogs-list {
 		display: flex;
 		flex-wrap: wrap;
 		margin: -8px;
+
+		@media (max-width: 600px) {
+			margin: -8px 0;
+		}
 	}
-	
+
 	.filtering {
 		margin-bottom: 30px;
 	}
-	
+
 </style>
