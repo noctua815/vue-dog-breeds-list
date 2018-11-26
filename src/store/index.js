@@ -12,6 +12,22 @@ const api = axios.create({
   }
 })
 
+function getStorage () {
+  const ls = window.localStorage.getItem('fav-dogs')
+
+  if (ls !== null) {
+    let parsed
+    try {
+      parsed = JSON.parse(ls)
+    } catch (e) {
+      console.log(e)
+      return []
+    }
+
+    return parsed
+  }
+}
+
 export default new Vuex.Store({
   state: {
     breeds: [],
@@ -70,25 +86,27 @@ export default new Vuex.Store({
     },
 
     getFavourites ({ commit }) {
-      const favs = window.localStorage.getItem('fav-dogs')
-
-      if (favs !== null) {
-        let parsed
-        try {
-          parsed = JSON.parse(favs)
-        } catch (e) {
-          console.log(e)
-        }
-
-        commit('SET_FAVOURITES', parsed)
-      }
+      commit('SET_FAVOURITES', getStorage())
     },
 
-    setFavourites ({ commit, state }, favs) {
-      window.localStorage.setItem('fav-dogs', JSON.stringify(favs))
-      commit('SET_FAVOURITES', favs)
+    updateFavourites ({ commit, state }, dogs) {
+      commit('SET_FAVOURITES', dogs)
+      window.localStorage.setItem('fav-dogs', JSON.stringify(dogs))
+    },
+
+    addFavourite ({ dispatch }, dog) {
+      let favs = getStorage()
+      favs.unshift(dog)
+      dispatch('updateFavourites', favs)
+    },
+
+    removeFavourite ({ dispatch }, dog) {
+      let favs = getStorage()
+      favs = favs.filter(item => item.link !== dog.link)
+      dispatch('updateFavourites', favs)
     }
   },
+
   mutations: {
     SET_BREEDS (state, breeds) {
       state.breeds = breeds
@@ -116,6 +134,10 @@ export default new Vuex.Store({
 
     SET_FAVOURITES (state, dogs) {
       state.favourites = dogs
+    },
+
+    ADD_FAVOURITES (state, dog) {
+      state.favourites.unshift(dog)
     }
   },
   getters: {

@@ -6,43 +6,48 @@
            alt="Dog">
     </div>
     <div class="dog-card__action">
-      <div :class="['dog-card__like', {'is-liked': like}]" @click="liked"></div>
+      <div :class="['dog-card__like', {'is-liked': isLiked}]" @click.stop="liked"></div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   props: {
     data: {
       type: Object
-    },
-    isLiked: {
-      type: Boolean,
-      default: false
     }
   },
-  data () {
-    return {
-      like: this.isLiked
+
+  computed: {
+    ...mapState([
+      'favourites'
+    ]),
+
+    isLiked () {
+      let isFav = false
+
+      this.favourites.every(item => {
+        if (item.link === this.data.link) {
+          isFav = true
+          return false
+        }
+        return true
+      })
+
+      return isFav
     }
   },
 
   methods: {
     liked () {
-      let favs = JSON.parse(window.localStorage.getItem('fav-dogs')) || []
-
-      console.log(favs)
-
-      this.like = !this.like
-
-      if (this.like) {
-        favs.push(this.data)
+      if (this.isLiked) {
+        this.$store.dispatch('removeFavourite', this.data)
       } else {
-        favs = favs.filter(item => item.link !== this.data.link)
+        this.$store.dispatch('addFavourite', this.data)
       }
-
-      this.$store.dispatch('setFavourites', favs)
     }
   }
 }
@@ -85,9 +90,6 @@ export default {
       height: 100%;
       object-fit: cover;
       object-position: center top;
-    }
-
-    &__action {
     }
 
     &__like {
