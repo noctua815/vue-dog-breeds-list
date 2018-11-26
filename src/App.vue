@@ -11,10 +11,12 @@
 </template>
 
 <script>
+	import {mapState} from 'vuex'
 	import NavBar from '@/components/layout/NavBar'
 	
   export default {
     name: 'App',
+	  
 	  components: {
       NavBar
 	  }
@@ -66,7 +68,7 @@
 		}
 	}
 	
-	h1, h2 {
+	h1 {
 		font-weight: normal;
 	}
 	
@@ -74,6 +76,10 @@
 		display: flex;
 		flex-wrap: wrap;
 		margin: -8px;
+	}
+	
+	.loader {
+	
 	}
 	
 </style>

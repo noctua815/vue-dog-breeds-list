@@ -3,7 +3,7 @@
 		<div class="select__head" @click="toggleOpen">Breed</div>
 		<transition name="open-select">
 			<div class="select__body" v-if="opened">
-				<div class="select__item" v-for="(item, i) in arr" @click="selectItem(i)">{{ i }}</div>
+				<div class="select__item" v-for="(item, i) in options" @click="selectItem(item)" :key="i">{{ item }}</div>
 			</div>
 		</transition>
 	
@@ -13,8 +13,8 @@
 <script>
   export default {
     props: {
-      data: {
-        type: Object
+	    options: {
+        type: Array
       }
     },
     data () {

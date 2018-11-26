@@ -2,8 +2,8 @@
 	<div class="dog-card" @dblclick="liked">
 		<div class="dog-card__photo">
 			<img class="dog-card__img"
-			     src="https://images.dog.ceo/breeds/affenpinscher/n02110627_2911.jpg"
-			     alt="">
+			     :src="img"
+			     alt="Dog">
 		</div>
 		<div class="dog-card__action">
 			<div :class="['dog-card__like', {'is-liked': like}]" @click="liked"></div>
@@ -14,7 +14,9 @@
 <script>
   export default {
     props: {
-    
+      img: {
+      	type: String
+      }
     },
     data () {
       return {
@@ -40,15 +42,29 @@
 		background-color: var(--light);
 		
 		&__photo {
+			position: relative;
+			width: 100%;
 			margin-bottom: 16px;
+			background-color: rgba(black, 0.1);
 			border-radius: 4px;
 			overflow: hidden;
+			
+			&:after {
+				content: '';
+				padding-top: 100%;
+				float: left;
+			}
 		}
 		
 		
 		&__img {
-			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
 			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-position: center top;
 		}
 		
 		&__action {}
