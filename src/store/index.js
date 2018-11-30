@@ -25,7 +25,7 @@ function getStorage () {
     }
 
     return parsed
-  }
+  } else return []
 }
 
 export default new Vuex.Store({
@@ -96,6 +96,7 @@ export default new Vuex.Store({
 
     addFavourite ({ dispatch }, dog) {
       let favs = getStorage()
+      console.log(favs)
       favs.unshift(dog)
       dispatch('updateFavourites', favs)
     },
