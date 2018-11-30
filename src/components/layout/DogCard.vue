@@ -29,6 +29,8 @@ export default {
     isLiked () {
       let isFav = false
 
+      if (!this.favourites) return false
+
       this.favourites.every(item => {
         if (item.link === this.data.link) {
           isFav = true
